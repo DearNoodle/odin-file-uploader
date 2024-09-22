@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 
-async function generatePassword(req) {
-  return await bcrypt.hash(req.body.password, 123);
+async function generatePassword(password) {
+  return await bcrypt.hash(password, 10);
 }
 
 async function isPasswordValid(password, dbPassword) {

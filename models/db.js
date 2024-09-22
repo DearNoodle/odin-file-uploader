@@ -1,27 +1,17 @@
-const { Pool } = require("pg");
-const session = require("express-session");
-const pgSession = require("connect-pg-simple")(session);
-const dotenv = require("dotenv");
+const expressSession = require('express-session');
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
+const { PrismaClient } = require('@prisma/client');
 
-dotenv.config();
-
-const pool = new Pool({
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  port: process.env.PGPORT,
-  database: process.env.PGDATABASE,
-});
-
-const sessionConnection = session({
-  store: new pgSession({
-    pool: pool,
-    tableName: "session",
+const sessionConnection = expressSession({
+  store: new PrismaSessionStore(new PrismaClient(), {
+    checkPeriod: 2 * 60 * 1000, //ms
+    dbRecordIdIsSessionId: true,
+    dbRecordIdFunction: undefined,
   }),
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 5 * 60 * 1000 },
+  cookie: { maxAge: 30 * 1000 },
 });
 
-module.exports = { pool, sessionConnection };
+module.exports = { sessionConnection };
