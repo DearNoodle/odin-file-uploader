@@ -8,7 +8,7 @@ const sessionConnection = expressSession({
     dbRecordIdIsSessionId: true,
     dbRecordIdFunction: undefined,
   }),
-  secret: process.env.SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 30 * 1000 },

@@ -1,28 +1,12 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "Session" (
+    "id" TEXT NOT NULL,
+    "sid" TEXT NOT NULL,
+    "data" TEXT NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
 
-  - You are about to drop the `File` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Folder` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "File" DROP CONSTRAINT "File_folderId_fkey";
-
--- DropForeignKey
-ALTER TABLE "File" DROP CONSTRAINT "File_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Folder" DROP CONSTRAINT "Folder_userId_fkey";
-
--- DropTable
-DROP TABLE "File";
-
--- DropTable
-DROP TABLE "Folder";
-
--- DropTable
-DROP TABLE "User";
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -53,6 +37,12 @@ CREATE TABLE "files" (
 
     CONSTRAINT "files_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Session_sid_key" ON "Session"("sid");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- AddForeignKey
 ALTER TABLE "folders" ADD CONSTRAINT "folders_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
