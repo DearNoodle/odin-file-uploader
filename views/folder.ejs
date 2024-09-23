@@ -1,0 +1,19 @@
+<form action="/edit-folder/<%= id %>" method="get">
+  <button type="submit">Edit Folder Name</button>
+</form>
+<form action="/delete-folder/<%= id %>" method="post">
+  <button type="submit">Delete Folder</button>
+</form>
+<% if (files) { %>
+<h2>Files</h2>
+<ul>
+  <% files.forEach(file => { %>
+  <li>
+    <p><%= file.name %></p>
+  </li>
+  <% }) %>
+</ul>
+<% } %>
+<form action="/upload/<%= id %>" method="get">
+  <button type="submit">Upload File</button>
+</form>

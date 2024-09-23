@@ -1,3 +1,31 @@
-<% if (user) {%>
-
+<h1>Login Sucess</h1>
+<% if (files) { %>
+<h2>Files</h2>
+<ul>
+  <% files.forEach(file => { %>
+  <li>
+    <p><%= file.name %></p>
+  </li>
+  <% }) %>
+</ul>
 <% } %>
+<form action="/upload/user" method="get">
+  <button type="submit">Upload File</button>
+</form>
+
+<% if (folders) { %>
+<h2>Folder List</h2>
+<ul>
+  <% folders.forEach(folder => { %>
+  <li>
+    <h3><%= folder.name %></h3>
+    <form action="/folder/<%= folder.id %>" method="get">
+      <button type="submit">Open Folder</button>
+    </form>
+  </li>
+  <% }) %>
+</ul>
+<% } %>
+<form action="/add-folder" method="get">
+  <button type="submit">Add Folder</button>
+</form>

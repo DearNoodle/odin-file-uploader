@@ -1,6 +1,6 @@
 const passport = require('../passport/passport');
 const query = require('../models/query');
-const { body, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 
 async function homePageGet(req, res) {
   res.render('home');
@@ -15,44 +15,90 @@ async function loginPageGet(req, res) {
 }
 
 async function userPageGet(req, res) {
-  const uploads = await query.getAllUploads();
-  res.render('user', {
-    user: req.user,
-  });
+  try {
+    const files = await query.getFiles(req);
+    const folders = await query.getAllFolders(req);
+    res.render('user', { files: files, folders: folders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to Load User Data');
+  }
 }
 
-async function adminPageGet(req, res) {
-  res.send('Arrived Admin Page!');
+async function uploadPageGet(req, res) {
+  res.render('upload', { user: req.user });
 }
 
-const validateRegister = [
-  body('username')
-    .trim()
-    .isLength({ min: 3, max: 10 })
-    .withMessage('Username must be between 3 and 10 characters long.'),
-  body('password')
-    .trim()
-    .isLength({ min: 3, max: 10 })
-    .withMessage('Password must be between 3 and 10 characters long.'),
-];
+async function uploadPost(req, res) {
+  console.log(req.file);
+  try {
+    await query.uploadFile(req);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to Upload File');
+  }
+  res.redirect('/user');
+}
 
-const registerPost = [
-  validateRegister,
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).render('register', {
-        errors: errors.array(),
-      });
-    }
-    try {
-      await query.addNewUser(req);
-      res.redirect('/login');
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  },
-];
+async function folderPageGet(req, res) {
+  const files = await query.getFiles(req);
+  res.render('folder', { id: req.params.id, files: files });
+}
+
+async function addFolderPageGet(req, res) {
+  res.render('addFolder');
+}
+
+async function addFolderPost(req, res) {
+  try {
+    await query.addFolder(req);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to Add Folder');
+  }
+  res.redirect('/user');
+}
+
+async function editFolderPageGet(req, res) {
+  const id = req.params.id;
+  res.render('editFolder', { id: id });
+}
+
+async function editFolderPost(req, res) {
+  try {
+    await query.editFolder(req);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to Edit Folder');
+  }
+  res.redirect('/user');
+}
+
+async function deleteFolderPost(req, res) {
+  try {
+    await query.deleteFolder(req);
+    res.redirect('/user');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to Delete Folder');
+  }
+}
+
+async function registerPost(req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).render('register', {
+      errors: errors.array(),
+    });
+  }
+  try {
+    await query.addNewUser(req);
+    res.redirect('/login');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Failed to Register User');
+  }
+}
 
 async function loginPost(req, res, next) {
   passport.authenticate('local', {
@@ -64,7 +110,8 @@ async function loginPost(req, res, next) {
 async function logoutGet(req, res) {
   req.logout((err) => {
     if (err) {
-      res.status(500).send(err);
+      console.error(err);
+      res.status(500).send('Failed to Logout');
     }
     res.redirect('/');
   });
@@ -76,7 +123,14 @@ module.exports = {
   registerPageGet,
   registerPost,
   userPageGet,
-  adminPageGet,
+  uploadPageGet,
+  uploadPost,
+  folderPageGet,
+  addFolderPageGet,
+  addFolderPost,
+  editFolderPageGet,
+  editFolderPost,
+  deleteFolderPost,
   loginPost,
   logoutGet,
 };

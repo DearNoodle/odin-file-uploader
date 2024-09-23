@@ -11,7 +11,7 @@ const sessionConnection = expressSession({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 30 * 1000 },
+  cookie: { maxAge: 10 * 60 * 1000 },
 });
 
 module.exports = { sessionConnection };

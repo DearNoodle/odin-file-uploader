@@ -17,6 +17,7 @@ model Session {
   id        String   @id
   sid       String   @unique
   data      String
+  createdAt DateTime @default(now())
   expiresAt DateTime
 }
 
@@ -48,7 +49,7 @@ model File {
   userId     String
   folderId   String?
   user       User     @relation(fields: [userId], references: [id])
-  folder     Folder?  @relation(fields: [folderId], references: [id])
+  folder     Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
 
   @@map("files")
 }
