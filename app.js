@@ -1,7 +1,6 @@
-const express = require('express');
-const { sessionConnection } = require('./models/db');
 const path = require('path');
-const passport = require('./passport/passport');
+require('dotenv').config();
+const express = require('express');
 const router = require('./routes/router');
 
 const app = express();
@@ -9,10 +8,16 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+const { sessionConnection } = require('./configs/sessionConfig');
 app.use(sessionConnection);
+
+const { configCloudinary } = require('./configs/cloudinaryConfig');
+configCloudinary();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const passport = require('./passport/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 

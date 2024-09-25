@@ -42,14 +42,16 @@ model Folder {
 }
 
 model File {
-  id         String   @id @default(uuid())
-  name       String
-  url        String
-  uploadedAt DateTime @default(now())
-  userId     String
-  folderId   String?
-  user       User     @relation(fields: [userId], references: [id])
-  folder     Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  id           String   @id @default(uuid())
+  originalname String
+  filename     String
+  url          String
+  size         Int      @default(0)
+  uploadedAt   DateTime @default(now())
+  userId       String
+  folderId     String?
+  user         User     @relation(fields: [userId], references: [id])
+  folder       Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
 
   @@map("files")
 }

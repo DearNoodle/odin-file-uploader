@@ -4,8 +4,8 @@ async function generatePassword(password) {
   return await bcrypt.hash(password, 10);
 }
 
-async function isPasswordValid(password, dbPassword) {
-  return await bcrypt.compare(password, dbPassword);
+async function isPasswordValid(password, hashedPassword) {
+  return await bcrypt.compare(password, hashedPassword);
 }
 
 module.exports = {

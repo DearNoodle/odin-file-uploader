@@ -30,7 +30,6 @@ async function uploadPageGet(req, res) {
 }
 
 async function uploadPost(req, res) {
-  console.log(req.file);
   try {
     await query.uploadFile(req);
   } catch (error) {
@@ -38,6 +37,15 @@ async function uploadPost(req, res) {
     res.status(500).send('Failed to Upload File');
   }
   res.redirect('/user');
+}
+
+async function downloadGet(req, res) {
+  try {
+    await query.downloadFile(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to Download File');
+  }
 }
 
 async function folderPageGet(req, res) {
@@ -60,8 +68,7 @@ async function addFolderPost(req, res) {
 }
 
 async function editFolderPageGet(req, res) {
-  const id = req.params.id;
-  res.render('editFolder', { id: id });
+  res.render('editFolder', { id: req.params.id });
 }
 
 async function editFolderPost(req, res) {
@@ -125,6 +132,7 @@ module.exports = {
   userPageGet,
   uploadPageGet,
   uploadPost,
+  downloadGet,
   folderPageGet,
   addFolderPageGet,
   addFolderPost,

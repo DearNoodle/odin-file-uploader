@@ -3,9 +3,7 @@ const controller = require('../controllers/controller');
 
 const { isAuth } = require('./routeAuth');
 const validateRegister = require('./validateRegister');
-const path = require('path');
-const multer = require('multer');
-const upload = multer({ dest: path.join(__dirname, '../uploads/') });
+const { upload } = require('../configs/cloudinaryConfig');
 
 const router = Router();
 
@@ -17,6 +15,7 @@ router.post('/login', controller.loginPost);
 router.get('/user', isAuth, controller.userPageGet);
 router.get('/upload/:id', isAuth, controller.uploadPageGet);
 router.post('/upload/:id', isAuth, upload.single('file'), controller.uploadPost);
+router.get('/download/:id', isAuth, controller.downloadGet);
 
 router.get('/folder/:id', isAuth, controller.folderPageGet);
 router.get('/add-folder', isAuth, controller.addFolderPageGet);

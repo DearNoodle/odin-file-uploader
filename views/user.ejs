@@ -1,31 +1,51 @@
-<h1>Login Sucess</h1>
-<% if (files) { %>
-<h2>Files</h2>
-<ul>
-  <% files.forEach(file => { %>
-  <li>
-    <p><%= file.name %></p>
-  </li>
-  <% }) %>
-</ul>
-<% } %>
-<form action="/upload/user" method="get">
-  <button type="submit">Upload File</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
 
-<% if (folders) { %>
-<h2>Folder List</h2>
-<ul>
-  <% folders.forEach(folder => { %>
-  <li>
-    <h3><%= folder.name %></h3>
-    <form action="/folder/<%= folder.id %>" method="get">
-      <button type="submit">Open Folder</button>
-    </form>
-  </li>
-  <% }) %>
-</ul>
-<% } %>
-<form action="/add-folder" method="get">
-  <button type="submit">Add Folder</button>
-</form>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User</title>
+</head>
+
+<body>
+  <h1>Welcome</h1>
+  <a href="/logout">Logout Here</a>
+  <% if (files) { %>
+  <h2>Files</h2>
+  <ul>
+    <% files.forEach(file => { %>
+    <% const date = file.uploadedAt.toLocaleDateString() + ' ' + file.uploadedAt.toLocaleTimeString() %>
+    <li>
+      <p>Name: <%= file.originalname %></p>
+      <p>Size: <%= file.size %> Bytes</p>
+      <p>Upload Time: <%= date %></p>
+      <form action="/download/<%= file.id %>" method="get">
+        <button type="submit">Download Image</button>
+      </form>
+    </li>
+    <% }) %>
+  </ul>
+  <% } %>
+  <form action="/upload/user" method="get">
+    <button type="submit">Upload Image</button>
+  </form>
+
+  <% if (folders) { %>
+  <h2>Folder List</h2>
+  <ul>
+    <% folders.forEach(folder => { %>
+    <li>
+      <h3><%= folder.name %></h3>
+      <form action="/folder/<%= folder.id %>" method="get">
+        <button type="submit">Open Folder</button>
+      </form>
+    </li>
+    <% }) %>
+  </ul>
+  <% } %>
+  <form action="/add-folder" method="get">
+    <button type="submit">Add Folder</button>
+  </form>
+</body>
+
+</html>

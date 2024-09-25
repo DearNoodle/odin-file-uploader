@@ -1,8 +1,21 @@
-<form action="/edit-folder/<%= id %>" method="post">
-  <label>
-    New Name:
-    <input type="text" name="folderName">
-  </label>
-  <button type="submit">Edit Folder</button>
-</form>
-<a href="/user">Go Back</a>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Folder</title>
+</head>
+
+<body>
+  <form action="/edit-folder/<%= id %>" method="post">
+    <label>
+      New Name:
+      <input type="text" name="folderName">
+    </label>
+    <button type="submit">Edit Folder</button>
+  </form>
+  <a href="/user">Go Back</a>
+</body>
+
+</html>
