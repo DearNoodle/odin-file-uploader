@@ -17,7 +17,7 @@
   - Express.js (Web Framework)
   - ProgreSQL (Database)
   - Prisma (Database Interactions)
-  - [Cloudinary] (File Storage)
+  - Cloudinary (File Storage)
 - **Authentication:**
   - Passport.js
   - Prisma Session Store
