@@ -24,6 +24,6 @@
 - **Upload handling:**
   - Multer
 
-## Website
+## Website Link
 
-- [Image Uploader Link](https://odin-file-uploader-production.up.railway.app/)
+- [Image Uploader](https://odin-file-uploader-production.up.railway.app/)
