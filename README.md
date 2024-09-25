@@ -8,12 +8,15 @@
 - **File Downloads**
 - **File Details**
 
-## Technique Used
+## App Components
 
+- **Frontend:**
+  - EJS (Dynamic HTML)
 - **Backend:**
   - Node.js
   - Express.js (Web Framework)
-  - Prisma (ORM for Database Interactions)
+  - ProgreSQL (Database)
+  - Prisma (Database Interactions)
   - [Cloudinary] (File Storage)
 - **Authentication:**
   - Passport.js
@@ -23,4 +26,4 @@
 
 ## Website
 
-- **Link:**
+- [Image Uploader Link](https://odin-file-uploader-production.up.railway.app/)
